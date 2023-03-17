@@ -15,7 +15,7 @@ const TargetFile = 'https://bigfeeds.bigupdata.co.uk/download?lnk=3261b0251c6947
 
 //* CHOOSE IMPORT TYPE 
 //* 0=csv, 1=zipped csv, 2=tab delimted txt
-const ImportType =2;
+const ImportType =1;
 
 //* FILE HAS HEADER ROW? 
 //* 0=No, 1=Yes
@@ -149,6 +149,7 @@ if (typeof AddFormulas === 'undefined')
     }
     );
   }
+
 
 //*/////////////////////////////////////
 //*  EXECUTE OPTIONAL FEATURES

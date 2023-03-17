@@ -11,7 +11,7 @@ function LoadfeedZIP()
 //*/////////////////////////////////////
 
 //* SPECIFY FILE URL TO DOWNLOAD
-const TargetFile = 'https://bigfeeds.bigupdata.co.uk/download?lnk=3261b0251c6947a8a3c17e758d7770cf';
+const TargetFile = 'https://site.com/datafeed.zip';
 
 //* CHOOSE IMPORT TYPE 
 //* 0=csv, 1=zipped csv, 2=tab delimted txt

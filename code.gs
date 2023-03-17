@@ -103,7 +103,6 @@ switch(ImportType)
         else {DiscardCount++;}
       }
     break;
-
 }
 
 //* PRINT THE EXTRACTED CONTENTS TO THE SHEET SPECIFIED AT THE TOP
@@ -151,6 +150,7 @@ if (typeof AddFormulas === 'undefined')
     }
     );
   }
+
 
 //*/////////////////////////////////////
 //*  EXECUTE OPTIONAL FEATURES

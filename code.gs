@@ -53,6 +53,7 @@ const DataSheetName = "Sheet1";
 
 //* DEFINE WHERE THE DATA STARTS 
   const startRow = 1 + HasHeader;
+  var DiscardCount = 0;
 
 //* INITIALISE THE SPREADSHEET CONNECTION AND POINT IT AT THE CORRECT SHEET
   var ss = SpreadsheetApp.getActiveSpreadsheet().getSheetByName(DataSheetName);
@@ -89,7 +90,6 @@ switch(ImportType)
     var commit=[];
     var CellData = [];
     var NumColumns = null;
-    var DiscardCount = 0;
       for (var i = 0; i < rows.length; i++) 
       {
         var RowValues = rows[i].split('\t');
@@ -123,10 +123,10 @@ Logger.log('Added: '+CellData.length+'. Skipped: '+DiscardCount+'.')
 
 //* CHECK IF OPTIONAL FEATURES WERE ACTIVATED, SET VAR TO NULL IF NOT (To avoid error)
 if (typeof SortOrder === 'undefined') 
-{const SortOrder=null;}
+{var SortOrder=null;}
 
 if (typeof AddFormulas === 'undefined') 
-{const AddFormulas=null;}
+{var AddFormulas=null;}
 
 //* FUNCTION TO ADD EXTRA FORMULAS TO END OF SHEET
  function ExecuteFormulas(values)
@@ -168,4 +168,3 @@ if (typeof AddFormulas === 'undefined')
     ExecuteFormulas(AddFormulas);
     }
 }
-

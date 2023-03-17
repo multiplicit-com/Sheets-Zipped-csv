@@ -29,7 +29,7 @@ const DataSheetName = "Sheet1";
 //* Just change the column numbers to what you want to sort by. A=1, B=2 etc.
 //* this works best when the cell value is a number
 
-//  var SortOrder = [
+//  const SortOrder = [
 //     {column: 1, ascending: true}
 //    ,{column: 2, ascending: true}
 //    ,{column: 3, ascending: true}
@@ -39,7 +39,7 @@ const DataSheetName = "Sheet1";
 //* Write the formula as if it is meant for row 2; 'A2-1' etc. The script will translate the formula correctly to all the rows below.
 //* Use the format ['formula','column name']
 
-//  var AddFormulas = [
+//  const AddFormulas = [
 //     ['=1+1','New Col 1']
 //    ,['=2+2','New Col 2']
 //    ,['=3+3','New Col 3']
@@ -52,7 +52,7 @@ const DataSheetName = "Sheet1";
 //*/////////////////////////////////////
 
 //* DEFINE WHERE THE DATA STARTS 
-  var startRow = 1 + HasHeader;
+  const startRow = 1 + HasHeader;
 
 //* INITIALISE THE SPREADSHEET CONNECTION AND POINT IT AT THE CORRECT SHEET
   var ss = SpreadsheetApp.getActiveSpreadsheet().getSheetByName(DataSheetName);
@@ -86,7 +86,6 @@ switch(ImportType)
     // FETCH TAB DELIMITED TEXT FILE (Not Zipped)
     var file = UrlFetchApp.fetch(TargetFile).getContentText();
     var rows = file.split('\n');
-    var commit=[];
     var csv = [];
     var NumColumns = null;
     var DiscardCount = 0;

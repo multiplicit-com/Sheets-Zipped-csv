@@ -14,10 +14,10 @@ function LoadfeedZIP()
 const TargetFile = 'https://site.com.co.uk/zip_file.zip';
 
 //* IS THE FILE ZIPPED? 
-//* 0=csv, 1=zipped
-const IsZipped =1;
+//* 0=csv, 1=zipped csv, 2=tab delimted txt
+const ImportType =2;
 
-//* DOES FILE HAVE A HEADER ROW? 
+//* FILE HAS HEADER ROW? 
 //* 0=No, 1=Yes
 const HasHeader =1;
 
@@ -32,7 +32,7 @@ const DataSheetName = "Sheet1";
 //  var SortOrder = [
 //     {column: 1, ascending: true}
 //    ,{column: 2, ascending: true}
-//    ,{column: 3, ascending: false}
+//    ,{column: 3, ascending: true}
 //  ];
 
 //* UNCOMMENT THESE ROWS TO ADD EXTRA FORMULAS TO THE DATA
@@ -64,7 +64,7 @@ const DataSheetName = "Sheet1";
 
 //* DECIDE WHETHER THE FILE IS ZIPPED AND FETCH IT
 //* Implemented as a switch statement to make it easy to expand with new file formats.
-switch(IsZipped)
+switch(ImportType)
 {
     case 0:
     //* FETCH CSV FILE FROM URL (Not Zipped)
@@ -81,14 +81,40 @@ switch(IsZipped)
     //* PARSE THE EXTRACTED DATA
     var csv = Utilities.parseCsv(FileContents);
     break;
+    
+    case 2:
+    // FETCH TAB DELIMITED TEXT FILE (Not Zipped)
+    var file = UrlFetchApp.fetch(TargetFile).getContentText();
+    var rows = file.split('\n');
+    var commit=[];
+    var csv = [];
+    var NumColumns = null;
+    var DiscardCount = 0;
+      for (var i = 0; i < rows.length; i++) 
+      {
+        var RowValues = rows[i].split('\t');
+        //* Calculate length of first row
+        if (NumColumns === null) {NumColumns = RowValues.length;}
+        
+        //* Commit data to csv variable IF row is not blank AND column count is correct
+        if (RowValues.length === NumColumns && rows[i].length !== 0) {csv.push(RowValues);}
+        
+        //* Increment count of skipped rows
+        else {DiscardCount++;}
+      }
+    break;
+
 }
 
 //* PRINT THE EXTRACTED CONTENTS TO THE SHEET SPECIFIED AT THE TOP
-  ss.getRange(1, 1, csv.length, csv[0].length).setValues(csv);
+ss.getRange(1, 1, csv.length, csv[0].length).setValues(csv);
+
+//* ADD BASIC SUMMARY TO EXECUTION LOG
+Logger.log('Added: '+csv.length+'. Skipped: '+DiscardCount+'.')
 
 //* EXTRACT INFO VALUES ABOUT CSV FOR OTHER FUNCTIONS
   var NextCol = csv[0].length+1; // Identify next position to add new columns to
-  var NextRow = csv[0].length+1; // Identify next position to add new rows to
+  var NextRow = csv.length+1; // Identify next position to add new rows to
   var LastRow = csv.length; // last row of current data import
 
 
@@ -99,6 +125,7 @@ switch(IsZipped)
 //* CHECK IF OPTIONAL FEATURES WERE ACTIVATED, SET VAR TO NULL IF NOT (To avoid error)
 if (typeof SortOrder === 'undefined') 
 {var SortOrder=null;}
+
 if (typeof AddFormulas === 'undefined') 
 {var AddFormulas=null;}
 
@@ -125,7 +152,6 @@ if (typeof AddFormulas === 'undefined')
     );
   }
 
-
 //*/////////////////////////////////////
 //*  EXECUTE OPTIONAL FEATURES
 //*/////////////////////////////////////
@@ -142,6 +168,4 @@ if (typeof AddFormulas === 'undefined')
     {
     ExecuteFormulas(AddFormulas);
     }
-
-//* End of function
 }

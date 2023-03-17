@@ -123,10 +123,10 @@ Logger.log('Added: '+CellData.length+'. Skipped: '+DiscardCount+'.')
 
 //* CHECK IF OPTIONAL FEATURES WERE ACTIVATED, SET VAR TO NULL IF NOT (To avoid error)
 if (typeof SortOrder === 'undefined') 
-{var SortOrder=null;}
+{const SortOrder=null;}
 
 if (typeof AddFormulas === 'undefined') 
-{var AddFormulas=null;}
+{const AddFormulas=null;}
 
 //* FUNCTION TO ADD EXTRA FORMULAS TO END OF SHEET
  function ExecuteFormulas(values)

@@ -70,7 +70,7 @@ switch(ImportType)
     //* FETCH CSV FILE FROM URL (Not Zipped)
     var FileContents = UrlFetchApp.fetch(TargetFile);
     //* PARSE THE EXTRACTED DATA
-    var csv = Utilities.parseCsv(FileContents);
+    var CellData = Utilities.parseCsv(FileContents);
     break;
     
     case 1:
@@ -79,14 +79,15 @@ switch(ImportType)
     var file = Utilities.unzip(blob);
     var FileContents = file[0].getDataAsString();
     //* PARSE THE EXTRACTED DATA
-    var csv = Utilities.parseCsv(FileContents);
+    var CellData = Utilities.parseCsv(FileContents);
     break;
     
     case 2:
     // FETCH TAB DELIMITED TEXT FILE (Not Zipped)
     var file = UrlFetchApp.fetch(TargetFile).getContentText();
     var rows = file.split('\n');
-    var csv = [];
+    var commit=[];
+    var CellData = [];
     var NumColumns = null;
     var DiscardCount = 0;
       for (var i = 0; i < rows.length; i++) 
@@ -95,8 +96,8 @@ switch(ImportType)
         //* Calculate length of first row
         if (NumColumns === null) {NumColumns = RowValues.length;}
         
-        //* Commit data to csv variable IF row is not blank AND column count is correct
-        if (RowValues.length === NumColumns && rows[i].length !== 0) {csv.push(RowValues);}
+        //* Commit data to CellData variable IF row is not blank AND column count is correct
+        if (RowValues.length === NumColumns && rows[i].length !== 0) {CellData.push(RowValues);}
         
         //* Increment count of skipped rows
         else {DiscardCount++;}
@@ -105,15 +106,15 @@ switch(ImportType)
 }
 
 //* PRINT THE EXTRACTED CONTENTS TO THE SHEET SPECIFIED AT THE TOP
-ss.getRange(1, 1, csv.length, csv[0].length).setValues(csv);
+ss.getRange(1, 1, CellData.length, CellData[0].length).setValues(CellData);
 
 //* ADD BASIC SUMMARY TO EXECUTION LOG
-Logger.log('Added: '+csv.length+'. Skipped: '+DiscardCount+'.')
+Logger.log('Added: '+CellData.length+'. Skipped: '+DiscardCount+'.')
 
 //* EXTRACT INFO VALUES ABOUT CSV FOR OTHER FUNCTIONS
-  var NextCol = csv[0].length+1; // Identify next position to add new columns to
-  var NextRow = csv.length+1; // Identify next position to add new rows to
-  var LastRow = csv.length; // last row of current data import
+  var NextCol = CellData[0].length+1; // Identify next position to add new columns to
+  var NextRow = CellData.length+1; // Identify next position to add new rows to
+  var LastRow = CellData.length; // last row of current data import
 
 
 //*/////////////////////////////////////
@@ -157,7 +158,7 @@ if (typeof AddFormulas === 'undefined')
 //* SORT THE DATA IF ENABLED AT TOP OF SCRIPT
   if (SortOrder)
     {
-    ss.getRange(startRow, 1, csv.length, csv[0].length).sort(SortOrder);
+    ss.getRange(startRow, 1, CellData.length, CellData[0].length).sort(SortOrder);
     }
 
 //* ADD EXTRA FORMULAS IF ENABLED AT TOP OF SCRIPT
@@ -167,3 +168,4 @@ if (typeof AddFormulas === 'undefined')
     ExecuteFormulas(AddFormulas);
     }
 }
+

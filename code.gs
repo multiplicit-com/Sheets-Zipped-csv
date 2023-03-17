@@ -11,9 +11,9 @@ function LoadfeedZIP()
 //*/////////////////////////////////////
 
 //* SPECIFY FILE URL TO DOWNLOAD
-const TargetFile = 'https://site.com.co.uk/zip_file.zip';
+const TargetFile = 'https://bigfeeds.bigupdata.co.uk/download?lnk=3261b0251c6947a8a3c17e758d7770cf';
 
-//* IS THE FILE ZIPPED? 
+//* CHOOSE IMPORT TYPE 
 //* 0=csv, 1=zipped csv, 2=tab delimted txt
 const ImportType =2;
 
@@ -62,7 +62,7 @@ const DataSheetName = "Sheet1";
 //* This does not delete cells or rows - it just clears them
   ss.getRange(1,1,ss.getMaxRows(),ss.getMaxColumns()).clearContent();
 
-//* DECIDE WHETHER THE FILE IS ZIPPED AND FETCH IT
+//* SPECIFY THE IMPORT TYPE
 //* Implemented as a switch statement to make it easy to expand with new file formats.
 switch(ImportType)
 {
@@ -128,7 +128,6 @@ if (typeof SortOrder === 'undefined')
 if (typeof AddFormulas === 'undefined') 
 {var AddFormulas=null;}
 
-
 //* FUNCTION TO ADD EXTRA FORMULAS TO END OF SHEET
  function ExecuteFormulas(values)
   {
@@ -150,7 +149,6 @@ if (typeof AddFormulas === 'undefined')
     }
     );
   }
-
 
 //*/////////////////////////////////////
 //*  EXECUTE OPTIONAL FEATURES

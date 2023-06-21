@@ -45,6 +45,11 @@ const DataSheetName = "Sheet1";
 //    ,['=3+3','New Col 3']
 //  ];
 
+//Convert formulas to static values? 
+//More useful if you run large one-off imports
+//* 0=No, 1=Yes
+const FormulaStatic =1;
+
 
 //*/////////////////////////////////////
 //*  DO NOT EDIT BELOW
@@ -143,6 +148,11 @@ if (typeof AddFormulas === 'undefined')
 
         //* PRINT THE COLUMN HEADER
         ss.getRange(1, NextCol).setValue(ThisRow[1]);
+
+        if (FormulaStatic==1)
+        {
+        targetRange.setValues(targetRange.getValues());
+        }      
         
         //* INCREMENT NextCol BY +1 READY FOR THE NEXT NEW COLUMN
         NextCol++;

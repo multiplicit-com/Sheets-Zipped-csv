@@ -9,4 +9,4 @@ By default it comes with modes for zipped or unzipped csv files, and tab delimit
 
 This script was originally written to be compatible with affiliate product csv feeds from Awin (affiliate window), but it will work with any standard zipped csv file. 
 
-You can find full instructions here: https://www.multiplicit.co.uk/sheets/
+You can find full instructions here: https://www.multiplicit.co.uk/sheets/ .

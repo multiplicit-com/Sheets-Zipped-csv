@@ -5,6 +5,8 @@ This guide will show you how to take back control of your data by using Google S
 
 The aim is to allow anyone with basic Excel or Google Sheets skills to get extra value from product data without relying on time consuming or expensive developers. If you can write simple Excel formulas and make basic pivot tables that is more than enough to create your own custom data source.
 
-By default it will load zipped and inzipped csv files, and tab delimited text files. It it is designed to be easily extensible to deal with other formats if required.
+By default it comes with modes for zipped or unzipped csv files, and tab delimited text files. It it is designed to be easily extensible to deal with other formats if required. 
+
+It was originally written to be compatible with affiliate product csv feeds from Awin (affiliate window), but it will work with any standard zipped csv file
 
 You can find full instructions here: https://www.multiplicit.co.uk/sheets/

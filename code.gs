@@ -188,4 +188,8 @@ if (typeof AddFormulas === 'undefined')
     ss.getRange(startRow, 1, NextRow-1, NextCol-1).sort(SortOrder);
     }
 
+//*/////////////////////////////////////
+//*  END OF SCRIPT
+//*/////////////////////////////////////
+
 }

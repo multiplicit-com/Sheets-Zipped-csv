@@ -80,18 +80,18 @@ switch(ImportType)
 {
     case 0:
     //* FETCH CSV FILE FROM URL (Not Zipped)
-    var FileContents = UrlFetchApp.fetch(TargetFile);
+    var filecontents = UrlFetchApp.fetch(TargetFile);
     //* PARSE THE EXTRACTED DATA
-    var CellData = Utilities.parseCsv(FileContents);
+    var CellData = Utilities.parseCsv(filecontents);
     break;
     
     case 1:
     //* FETCH CSV FILE FROM URL (Zipped)
     var blob = UrlFetchApp.fetch(TargetFile).getBlob();
     var file = Utilities.unzip(blob);
-    var FileContents = file[0].getDataAsString();
+    var filecontents = file[0].getDataAsString();
     //* PARSE THE EXTRACTED DATA
-    var CellData = Utilities.parseCsv(FileContents);
+    var CellData = Utilities.parseCsv(filecontents);
     break;
     
     case 2:

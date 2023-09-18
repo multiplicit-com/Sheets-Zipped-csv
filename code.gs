@@ -73,6 +73,10 @@ const FormulaStatic =1;
 
 //* SPECIFY THE IMPORT TYPE
 //* Implemented as a switch statement to make it easy to expand with new file formats.
+//* Feel free to add extra modes to the case statement. 
+//* The input is the vairiable "TargetFile" - the url of the file to process
+//* The output should go in the CellData variable
+
 switch(ImportType)
 {
     case 0:
@@ -83,7 +87,7 @@ switch(ImportType)
     break;
     
     case 1:
-    //* FETCH ZIP FILE AND UNZIP
+    //* FETCH CSV FILE FROM URL (Zipped)
     var blob = UrlFetchApp.fetch(TargetFile).getBlob();
     var file = Utilities.unzip(blob);
     var FileContents = file[0].getDataAsString();
@@ -92,7 +96,7 @@ switch(ImportType)
     break;
     
     case 2:
-    // FETCH TAB DELIMITED TEXT FILE (Not Zipped)
+    // FETCH TAB DELIMITED TEXT FILE FROM URL (Not Zipped)
     var file = UrlFetchApp.fetch(TargetFile).getContentText();
     var rows = file.split('\n');
     var commit=[];

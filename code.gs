@@ -114,7 +114,7 @@ switch(ImportType)
         
         //* Increment count of skipped rows
         else {DiscardCount++; 
-        //Logger.log('s'+i+'|')
+        //Logger.log('d'+i+'|')
         }
       }
     break;

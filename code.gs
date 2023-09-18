@@ -181,18 +181,11 @@ if (typeof AddFormulas === 'undefined')
     ExecuteFormulas(AddFormulas);
     }
 
-        
-
 //* SORT THE DATA IF ENABLED AT TOP OF SCRIPT
 //* You can sort columns added by formulas
   if (SortOrder)
     {
     ss.getRange(startRow, 1, NextRow-1, NextCol-1).sort(SortOrder);
     }
-
-
-  // Update info sheet with current timestamp
-  var sheet = SpreadsheetApp.getActiveSpreadsheet().getSheetByName("Info");
-  sheet.getRange("B1").setValue(Utilities.formatDate(new Date(), "GMT", "dd-MM-yyyy HH:mm"));
 
 }

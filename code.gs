@@ -50,7 +50,6 @@ const DataSheetName = "Sheet1";
 //    ,{column: 3, ascending: true}
 //  ];
 
-
 //Convert formulas to static values? 
 //* 0=No, 1=Yes
 const FormulaStatic =1;

@@ -15,9 +15,10 @@ const TargetFile = 'https://site.com/datafeed.zip';
 
 //* CHOOSE IMPORT TYPE 
 //* 0=csv, 1=zipped csv, 2=tab delimted txt
-const ImportType =1;
+const ImportType =2;
 
-//* FILE HAS HEADER ROW? 
+//* FILE HAS HEADER ROW?
+//(If yes, this will be ignored in sorting etc and always stay at the top) 
 //* 0=No, 1=Yes
 const HasHeader =1;
 
@@ -25,18 +26,9 @@ const HasHeader =1;
 //* 'Sheet1 is the default for a new Google Sheet
 const DataSheetName = "Sheet1";
 
-//* UNCOMMENT THESE ROWS TO SORT THE DATA
-//* Just change the column numbers to what you want to sort by. A=1, B=2 etc.
-//* this works best when the cell value is a number
-
-//  var SortOrder = [
-//     {column: 1, ascending: true}
-//    ,{column: 2, ascending: true}
-//    ,{column: 3, ascending: true}
-//  ];
 
 //* UNCOMMENT THESE ROWS TO ADD EXTRA FORMULAS TO THE DATA
-//* Write the formula as if it is meant for row 2; 'A2-1' etc. The script will translate the formula correctly to all the rows below.
+//* Write the formula as if it is meant for row 1, or row 2 if you have header row; 'A2-1' etc. The script will translate the formula correctly to all the rows below.
 //* Use the format ['formula','column name']
 
 //  var AddFormulas = [
@@ -45,11 +37,23 @@ const DataSheetName = "Sheet1";
 //    ,['=3+3','New Col 3']
 //  ];
 
+
+
+//* UNCOMMENT THESE ROWS TO SORT THE DATA
+//* Just change the column numbers to what you want to sort by. A=1, B=2 etc.
+//* this works best when the cell value is a number
+//* You can sort colums created by formulas
+
+//  var SortOrder = [
+//     {column: 1, ascending: true}
+//    ,{column: 2, ascending: true}
+//    ,{column: 3, ascending: true}
+//  ];
+
+
 //Convert formulas to static values? 
-//More useful if you run large one-off imports
 //* 0=No, 1=Yes
 const FormulaStatic =1;
-
 
 //*/////////////////////////////////////
 //*  DO NOT EDIT BELOW
@@ -58,7 +62,6 @@ const FormulaStatic =1;
 
 //* DEFINE WHERE THE DATA STARTS 
   const startRow = 1 + HasHeader;
-  var DiscardCount = 0;
 
 //* INITIALISE THE SPREADSHEET CONNECTION AND POINT IT AT THE CORRECT SHEET
   var ss = SpreadsheetApp.getActiveSpreadsheet().getSheetByName(DataSheetName);
@@ -95,6 +98,7 @@ switch(ImportType)
     var commit=[];
     var CellData = [];
     var NumColumns = null;
+    var DiscardCount = 0;
       for (var i = 0; i < rows.length; i++) 
       {
         var RowValues = rows[i].split('\t');
@@ -105,7 +109,9 @@ switch(ImportType)
         if (RowValues.length === NumColumns && rows[i].length !== 0) {CellData.push(RowValues);}
         
         //* Increment count of skipped rows
-        else {DiscardCount++;}
+        else {DiscardCount++; 
+        //Logger.log('s'+i+'|')
+        }
       }
     break;
 }
@@ -120,7 +126,6 @@ Logger.log('Added: '+CellData.length+'. Skipped: '+DiscardCount+'.')
   var NextCol = CellData[0].length+1; // Identify next position to add new columns to
   var NextRow = CellData.length+1; // Identify next position to add new rows to
   var LastRow = CellData.length; // last row of current data import
-
 
 //*/////////////////////////////////////
 //*  OPTIONAL FUNCTIONS
@@ -137,39 +142,36 @@ if (typeof AddFormulas === 'undefined')
  function ExecuteFormulas(values)
   {
   //* This parses the formula array using a 'foreach' loop and adds each new column 1 at a time. 
-  //* Only for light use  - there are better ways to add dozens of columns in one go if that's what you need
-  values.forEach(function(ThisRow) 
+  //* Only for reasonably light use  - there are better ways to add dozens of columns in one go if that's what you need
+  
+  values.forEach(function(ThisForm) 
     { 
         //* DEFINE WHERE TO PUT THE NEW FORMULA
         var targetRange = ss.getRange(startRow, NextCol, LastRow - 1, 1); 
 
         //* WRITE THE FORMULA AND DRAG IT DOWN TO THE BOTTOM OF THE DATA
-        ss.getRange(startRow, NextCol).setFormula(ThisRow[0]).copyTo(targetRange);
-
-        //* PRINT THE COLUMN HEADER
-        ss.getRange(1, NextCol).setValue(ThisRow[1]);
+        ss.getRange(startRow, NextCol).setFormula(ThisForm[0]).copyTo(targetRange);
 
         if (FormulaStatic==1)
         {
         targetRange.setValues(targetRange.getValues());
-        }      
-        
+        }   
+
+        //* PRINT THE COLUMN HEADER
+        ss.getRange(1, NextCol).setValue(ThisForm[1]);
+
         //* INCREMENT NextCol BY +1 READY FOR THE NEXT NEW COLUMN
         NextCol++;
     }
     );
   }
 
-
 //*/////////////////////////////////////
 //*  EXECUTE OPTIONAL FEATURES
 //*/////////////////////////////////////
 
-//* SORT THE DATA IF ENABLED AT TOP OF SCRIPT
-  if (SortOrder)
-    {
-    ss.getRange(startRow, 1, CellData.length, CellData[0].length).sort(SortOrder);
-    }
+        Logger.log(NextCol)
+        Logger.log(startRow)
 
 //* ADD EXTRA FORMULAS IF ENABLED AT TOP OF SCRIPT
 //* Formulas and headers defined at top of script
@@ -177,4 +179,19 @@ if (typeof AddFormulas === 'undefined')
     {
     ExecuteFormulas(AddFormulas);
     }
+
+        
+
+//* SORT THE DATA IF ENABLED AT TOP OF SCRIPT
+//* You can sort columns added by formulas
+  if (SortOrder)
+    {
+    ss.getRange(startRow, 1, NextRow-1, NextCol-1).sort(SortOrder);
+    }
+
+
+  // Update info sheet with current timestamp
+  var sheet = SpreadsheetApp.getActiveSpreadsheet().getSheetByName("Info");
+  sheet.getRange("B1").setValue(Utilities.formatDate(new Date(), "GMT", "dd-MM-yyyy HH:mm"));
+
 }

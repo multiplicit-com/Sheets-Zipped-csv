@@ -174,9 +174,6 @@ if (typeof AddFormulas === 'undefined')
 //*  EXECUTE OPTIONAL FEATURES
 //*/////////////////////////////////////
 
-        Logger.log(NextCol)
-        Logger.log(startRow)
-
 //* ADD EXTRA FORMULAS IF ENABLED AT TOP OF SCRIPT
 //* Formulas and headers defined at top of script
   if (AddFormulas)

@@ -128,9 +128,10 @@ ss.getRange(1, 1, CellData.length, CellData[0].length).setValues(CellData);
 Logger.log('Added: '+CellData.length+'. Skipped: '+DiscardCount+'.')
 
 //* EXTRACT INFO VALUES ABOUT THE RECENT IMPORT TO HELP OPTIONAL FUNCTIONS
+  var LastCol = CellData[0].length; // Identify last column of current data import
   var NextCol = CellData[0].length+1; // Identify next position to add new columns to
   var NextRow = CellData.length+1; // Identify next position to add new rows to
-  var LastRow = CellData.length; // last row of current data import
+  var LastRow = CellData.length; // Identify last row of current data import
 
 //*/////////////////////////////////////
 //*  OPTIONAL FUNCTION VARIABLES

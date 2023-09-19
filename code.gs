@@ -95,7 +95,9 @@ switch(ImportType)
     break;
     
     case 2:
-    // FETCH TAB DELIMITED TEXT FILE FROM URL (Not Zipped)
+    //* FETCH TAB DELIMITED TEXT FILE FROM URL (Not Zipped)
+    //* This includes a feature to discard rows with an incorrect cell count
+
     var file = UrlFetchApp.fetch(TargetFile).getContentText();
     var rows = file.split('\n');
     var commit=[];
@@ -113,7 +115,7 @@ switch(ImportType)
         
         //* Increment count of skipped rows
         else {DiscardCount++; 
-        //Logger.log('d'+i+'|')
+        //Logger.log('Discard '+i+'|')
         }
       }
     break;

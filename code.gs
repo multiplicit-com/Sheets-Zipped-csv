@@ -159,6 +159,7 @@ if (typeof AddFormulas === 'undefined')
         //* WRITE THE FORMULA AND DRAG IT DOWN TO THE BOTTOM OF THE DATA
         ss.getRange(startRow, NextCol).setFormula(ThisForm[0]).copyTo(targetRange);
 
+        //* MAKE THE FORMULA A STATIC VALUE IF ENABLED AT TOP OF SCRIPT
         if (FormulaStatic==1)
         {
         targetRange.setValues(targetRange.getValues());

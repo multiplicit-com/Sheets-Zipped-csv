@@ -129,9 +129,9 @@ Logger.log('Added: '+CellData.length+'. Skipped: '+DiscardCount+'.')
 
 //* EXTRACT INFO VALUES ABOUT THE RECENT IMPORT TO HELP OPTIONAL FUNCTIONS
   var LastCol = CellData[0].length; // Identify last column of current data import
-  var NextCol = CellData[0].length+1; // Identify next position to add new columns to
+  var NextCol = LastCol+1; // Identify next position to add new columns to
   var LastRow = CellData.length; // Identify last row of current data import
-  var NextRow = CellData.length+1; // Identify next position to add new rows to
+  var NextRow = LastRow+1; // Identify next position to add new rows to
 
 
 //*/////////////////////////////////////

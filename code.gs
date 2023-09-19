@@ -37,8 +37,6 @@ const DataSheetName = "Sheet1";
 //    ,['=3+3','New Col 3']
 //  ];
 
-
-
 //* UNCOMMENT THESE ROWS TO SORT THE DATA
 //* Just change the column numbers to what you want to sort by. A=1, B=2 etc.
 //* this works best when the cell value is a number
@@ -133,7 +131,7 @@ Logger.log('Added: '+CellData.length+'. Skipped: '+DiscardCount+'.')
   var LastRow = CellData.length; // last row of current data import
 
 //*/////////////////////////////////////
-//*  OPTIONAL FUNCTIONS
+//*  OPTIONAL FUNCTION VARIABLES
 //*/////////////////////////////////////
 
 //* CHECK IF OPTIONAL FEATURES WERE ACTIVATED, SET VAR TO NULL IF NOT (To avoid error)

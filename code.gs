@@ -143,6 +143,10 @@ if (typeof SortOrder === 'undefined')
 if (typeof AddFormulas === 'undefined') 
 {var AddFormulas=null;}
 
+//*/////////////////////////////////////
+//*  EXECUTE OPTIONAL FEATURES
+//*/////////////////////////////////////
+
 //* FUNCTION TO ADD EXTRA FORMULAS TO END OF SHEET
  function ExecuteFormulas(values)
   {
@@ -170,10 +174,6 @@ if (typeof AddFormulas === 'undefined')
     }
     );
   }
-
-//*/////////////////////////////////////
-//*  EXECUTE OPTIONAL FEATURES
-//*/////////////////////////////////////
 
 //* ADD EXTRA FORMULAS IF ENABLED AT TOP OF SCRIPT
 //* Formulas and headers defined at top of script

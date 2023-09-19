@@ -113,6 +113,8 @@ switch(ImportType)
         
         //* Increment count of skipped rows
         else {DiscardCount++; 
+
+        //* Optional log statement to print discarded row numbers
         //Logger.log('Discard '+i+'|')
         }
       }

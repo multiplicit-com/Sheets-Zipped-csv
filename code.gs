@@ -127,7 +127,7 @@ ss.getRange(1, 1, CellData.length, CellData[0].length).setValues(CellData);
 //* ADD BASIC SUMMARY TO EXECUTION LOG
 Logger.log('Added: '+CellData.length+'. Skipped: '+DiscardCount+'.')
 
-//* EXTRACT INFO VALUES ABOUT CSV FOR OTHER FUNCTIONS
+//* EXTRACT INFO VALUES ABOUT THE RECENT IMPORT TO HELP OPTIONAL FUNCTIONS
   var NextCol = CellData[0].length+1; // Identify next position to add new columns to
   var NextRow = CellData.length+1; // Identify next position to add new rows to
   var LastRow = CellData.length; // last row of current data import

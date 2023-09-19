@@ -65,7 +65,7 @@ const FormulaStatic =1;
 
 //* DELETE CURRENT DATA
 //* Empty the entire sheet first, which is important in case the new import contains less rows or columns than the old one.
-//* This does not delete cells or rows - it just clears them
+//* This does not delete cells or rows - it just empties them
   ss.getRange(1,1,ss.getMaxRows(),ss.getMaxColumns()).clearContent();
 
 //* SPECIFY THE IMPORT TYPE

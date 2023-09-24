@@ -55,13 +55,14 @@ const FormulaStatic =1;
 
 
 
+
+
 function LoadfeedZIP(TargetFile, ImportType, DataSheetName, HasHeader=0, SortOrder=null, AddFormulas=null, FormulaStatic=0) {
 //*/////////////////////////////////////
 //* Function to load zipped files into Google sheets
 //* by Steve Lownds
 //* www.multiplicit.co.uk/sheets
 //* Core function script
-//* This provides the functionality for all imports. Include this in your project ONCE
 //*/////////////////////////////////////
 
 
@@ -121,11 +122,19 @@ function sheetExists(sheetName)
 //* INITIALISE THE SPREADSHEET CONNECTION AND POINT IT AT THE CORRECT SHEET
     var ss = SpreadsheetApp.getActiveSpreadsheet().getSheetByName(DataSheetName);
 
-//* DELETE CURRENT DATA
-//* Empty the entire sheet first, which is important in case the new import contains less rows or columns than the old one.
-//* This does not delete cells or rows - it just clears them
-  ss.getRange(1,1,ss.getMaxRows(),ss.getMaxColumns()).clearContent();
+  // Delete all cells except cell 1
+  if (ss.getMaxRows() > 1) {
+  ss.deleteRows(2, ss.getMaxRows() - 1);
+  }
+  
+  // Delete all columns except column 1
+  if (ss.getMaxColumns() > 1) {
+  ss.deleteColumns(2, ss.getMaxColumns() - 1);
+  }
 
+  //* DELETE CURRENT DATA
+  //* Empty anything left, which should be 1 single cell
+  ss.getRange(1,1,ss.getMaxRows(),ss.getMaxColumns()).clearContent();
 
 //*/////////////////////////////////////
 //* FETCH FILE AND IMPORT DATA
@@ -189,7 +198,7 @@ switch(ImportType)
     
   case 3:
     // FETCH XML FILE
-    // This is an example statement. XML structures vary a lot so it may need modification to fit your specific xml data structure
+    // This statement may need modification to fit your specific xml data structure
 
     try {var xmlFile = UrlFetchApp.fetch(TargetFile).getContentText(); Logger.log('Fetch successful');}
     catch (e){Logger.log('Fetch Failed');}
@@ -214,7 +223,7 @@ switch(ImportType)
 } 
   catch (e)
   {
-    Logger.log('Import switch statement failed. Halting import');
+    Logger.log('Import switch statement failed, halting import');
     return;
   }
 

@@ -214,7 +214,7 @@ switch(ImportType)
 } 
   catch (e)
   {
-    Logger.log('Import switch statement failed, halting import');
+    Logger.log('Import switch statement failed. Halting import');
     return;
   }
 

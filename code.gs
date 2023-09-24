@@ -4,6 +4,7 @@ function RunImporter() {
 //* by Steve Lownds
 //* www.multiplicit.co.uk/sheets
 //* Setting script to initiate import
+//* Replicate, modify and rename this script to run multiple imports using the same core function
 //*/////////////////////////////////////
 
 //* SPECIFY FILE URL TO DOWNLOAD
@@ -60,6 +61,7 @@ function LoadfeedZIP(TargetFile, ImportType, DataSheetName, HasHeader=0, SortOrd
 //* by Steve Lownds
 //* www.multiplicit.co.uk/sheets
 //* Core function script
+//* This provides the functionality for all imports. Include this in your project ONCE
 //*/////////////////////////////////////
 
 

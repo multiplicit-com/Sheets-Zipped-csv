@@ -12,7 +12,6 @@ This script was originally written to be compatible with affiliate product csv f
 This file contains two functions. One performs the key functionality and the other provides the settings and triggers it. That allows you to perform using several imports to different tabs in the same Google sheet using the same base code.
 
 You can find full instructions here: https://www.multiplicit.co.uk/sheets/ .
-<hr>
 
 <strong>Version History</strong>
 

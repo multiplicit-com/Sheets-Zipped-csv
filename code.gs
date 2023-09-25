@@ -329,8 +329,8 @@ if (typeof AddFormulas === 'undefined')
 //*  EXECUTE OPTIONAL FEATURES
 //*/////////////////////////////////////
 
-//* ADD EXTRA FORMULAS IF ENABLED AT TOP OF SCRIPT
-//* Formulas and headers defined at top of script
+//* ADD EXTRA FORMULAS IF ENABLED IN SETTINGS
+//* Formulas and headers defined in settings when the function is called
   if (AddFormulas)
     {
     Logger.log('Adding formulas');
@@ -343,7 +343,7 @@ if (typeof AddFormulas === 'undefined')
     }
     }
 
-//* SORT THE DATA IF ENABLED AT TOP OF SCRIPT
+//* SORT THE DATA IF ENABLED IN SETTINGS
 //* You can sort columns added by formulas
   if (SortOrder)
     {

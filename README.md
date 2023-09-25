@@ -13,6 +13,8 @@ This file contains two functions. One performs the key functionality and the oth
 
 You can find full instructions here: https://www.multiplicit.co.uk/sheets/ .
 
+<hr>
+
 <strong>Version History</strong>
 
 V1.3.1

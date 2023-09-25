@@ -16,6 +16,7 @@ You can find full instructions here: https://www.multiplicit.co.uk/sheets/ .
 <hr>
 
 <strong>Version History</strong>
+<small>
 
 V1.3.1
 
@@ -35,3 +36,5 @@ V1.1
 
 V1
 * Initial version
+
+</small>

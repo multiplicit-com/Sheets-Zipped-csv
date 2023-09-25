@@ -120,6 +120,7 @@ function sheetExists(sheetName)
       }
     }
   }
+  
   if (sheetExists(DataSheetName)) 
   {
     Logger.log('Target sheet ' + DataSheetName + ' confirmed');
@@ -128,6 +129,7 @@ function sheetExists(sheetName)
     Logger.log('Target sheet ' + sheetName + ' not found. Halting import');
     return;
   }
+
 
 //*/////////////////////////////////////
 //*  CHECK FOR IMPORTANT VARIABLES AND OPTIONAL FEATURES

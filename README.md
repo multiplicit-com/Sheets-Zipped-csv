@@ -16,12 +16,13 @@ You can find full instructions here: https://www.multiplicit.co.uk/sheets/ .
 Version History
 
 V1.3.1
-* Added extra feedback and log comments for use in debugging
+
 * Script won't run if certain variables aren't provided
 * Implemented better way to empty and delete columns
 
 V1.3
 * Separated the settings from the core functionality. Now you can invoke several imports in the same sheet without replicating the entire function 
+* Added extra feedback and log comments for use in debugging
 
 V1.2
 * Fixed sorting issues in some circumstances

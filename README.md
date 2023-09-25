@@ -13,18 +13,19 @@ This file conatins two functions. One performs the key functionality and the oth
 
 You can find full instructions here: https://www.multiplicit.co.uk/sheets/ .
 
-* Version History
+Version History
 
 V1.3.1
 * Added extra feedback and log comments for use in debugging
-Implemented better way to empty and delete columns
+* Script won't run if certain variables aren't provided
+* Implemented better way to empty and delete columns
 
 V1.3
 * Separated the settings from the core functionality. Now you can invoke several imports in the same sheet without replicating the entire function 
 
 V1.2
 * Fixed sorting issues in some circumstances
-Fixed out of range issue for some combinatiosn of extra formulas and sorting
+* Fixed out of range issue for some combinatiosn of extra formulas and sorting
 
 V1.1
 * Added ability to add extra formulas

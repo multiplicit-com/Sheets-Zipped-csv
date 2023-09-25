@@ -30,4 +30,4 @@ V1.1
 * Added ability to add extra formulas
 
 V1
-*Initial version
+* Initial version

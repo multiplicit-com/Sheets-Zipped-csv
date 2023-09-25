@@ -16,6 +16,7 @@ const ImportType =2;
 
 //* FILE HAS HEADER ROW?
 //(If yes, this will be ignored in sorting etc and always stay at the top) 
+//Set this if you have pivot tables based on the imported data
 //* 0=No, 1=Yes
 const HasHeader =1;
 

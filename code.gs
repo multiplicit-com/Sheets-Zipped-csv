@@ -251,6 +251,9 @@ if((MinLengthRow>0&&LastRow<MinLengthRow)||(MinLengthCol>0&&LastCol<MinLengthCol
 if (RetainOldData==1)
   {
   DeleteOldData();
+
+      // Delete all columns to the rightof imported data
+      ss.deleteColumns(LastImportedCol, ss.getMaxColumns() - LastImportedCol);
   }
 
 //* PRINT THE EXTRACTED CONTENTS TO THE SHEET SPECIFIED IN THE SETTINGS

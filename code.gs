@@ -256,7 +256,7 @@ if (RetainOldData==1)
   try 
   {
   ss.getRange(1, 1, LastRow, LastCol).setValues(CellData);
-  Logger.log('Import successful: Rows: '+CellData.length-DiscardCount+'. Skipped: '+DiscardCount+'.')
+  Logger.log('Import successful: Rows: '+CellData.length+'. Skipped: '+DiscardCount+'.')
   } 
   catch (e)
   {

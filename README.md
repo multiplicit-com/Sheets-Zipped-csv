@@ -12,3 +12,22 @@ This script was originally written to be compatible with affiliate product csv f
 This file conatins two functions. One performs the key functionality and the other provides the settings and triggers it. That allows you to perform using several imports to different tabs in the same Google sheet using the same base code.
 
 You can find full instructions here: https://www.multiplicit.co.uk/sheets/ .
+
+* Version History *
+
+V1.3.1
+Added extra feedback and log comments for use in debugging
+Implemented better way to empty and delete columns
+
+V1.3
+Separated the settings from the core functionality. Now you can invoke several imports in the same sheet without replicating the entire function 
+
+V1.2
+Fixed sorting issues in some circumstances
+Fixed out of range issue for some combinatiosn of extra formulas and sorting
+
+V1.1
+Added ability to add extra formulas
+
+V1
+Initial version

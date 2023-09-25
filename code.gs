@@ -75,6 +75,16 @@ function LoadfeedZIP(TargetFile, ImportType, DataSheetName, HasHeader=0, SortOrd
 //* Core function script
 //*/////////////////////////////////////
 
+//* INITIALISE THE SPREADSHEET CONNECTION AND POINT IT AT THE CORRECT SHEET
+    try 
+    {var ss = SpreadsheetApp.getActiveSpreadsheet().getSheetByName(DataSheetName);
+    Logger.log('Located and connected to sheet '+DataSheetName+'.');
+    } 
+    catch (e)
+    {Logger.log('Could not connect to sheet '+DataSheetName+'. Check the target sheet name');
+    return;
+    }
+
 
 //*FUNCTIONS
 function DeleteOldData()
@@ -100,36 +110,6 @@ if (LastRow>0 || RetainOldData==0)
   }
 }
 
-function sheetExists(sheetName) 
-  {
-    //* CHECK IF TARGET SHEET IS VALID
-    //* Get all sheets in the active spreadsheet
-    var SheetList = SpreadsheetApp.getActiveSpreadsheet().getSheets();
-  
-    //* Loop through all sheets and check their names
-    for (var i = 0; i < SheetList.length; i++) 
-    {
-      if (SheetList[i].getName() === sheetName) 
-      {
-        //* If a sheet with the specified name is found, return true
-        return true;
-      }
-      { 
-      //* If no sheet with the specified name is found, return false
-      return false;
-      }
-    }
-  }
-  
-  if (sheetExists(DataSheetName)) 
-  {
-    Logger.log('Target sheet ' + DataSheetName + ' confirmed');
-  } else 
-  {
-    Logger.log('Target sheet ' + sheetName + ' not found. Halting import');
-    return;
-  }
-
 
 //*/////////////////////////////////////
 //*  CHECK FOR IMPORTANT VARIABLES AND OPTIONAL FEATURES
@@ -149,7 +129,6 @@ if (typeof AddFormulas === 'undefined'||AddFormulas==null||AddFormulas.length ==
 
 if (typeof FormulaStatic === 'undefined') 
   {var AddFormulas=0;}
-
 
 //*/////////////////////////////////////
 //*  PREPARE FOR IMPORT
@@ -329,38 +308,37 @@ if (typeof AddFormulas === 'undefined')
 //*  EXECUTE OPTIONAL FEATURES
 //*/////////////////////////////////////
 
-//* ADD EXTRA FORMULAS IF ENABLED IN SETTINGS
-//* Formulas and headers defined in settings when the function is called
+//* ADD EXTRA FORMULAS IF ENABLED AT TOP OF SCRIPT
+//* Formulas and headers defined at top of script
   if (AddFormulas)
     {
-    Logger.log('Adding formulas');
-    try {ExecuteFormulas(AddFormulas);
-    Logger.log('Formulas Complete');}
-    catch (e)
-    {
-    Logger.log('Adding formulas failed, halting import');
-    return;
-    }
+      Logger.log('Adding formulas');
+      try {ExecuteFormulas(AddFormulas);
+      Logger.log('Formulas Complete');}
+      catch (e)
+      {
+      Logger.log('Adding formulas failed, halting import');
+      return;
+      }
     }
 
-//* SORT THE DATA IF ENABLED IN SETTINGS
+//* SORT THE DATA IF ENABLED AT TOP OF SCRIPT
 //* You can sort columns added by formulas
   if (SortOrder)
     {
     Logger.log('Start Sorting');
-    
-    try {ss.getRange(StartRow,1,ss.getMaxRows()-StartRow,ss.getMaxColumns()).sort(SortOrder);
-    Logger.log('Sorting Complete');
-    }
-    catch (e)
-    {
-    Logger.log('Sorting failed, halting import');
-    return;
-    }
+      try 
+      {ss.getRange(StartRow,1,ss.getMaxRows()-StartRow,ss.getMaxColumns()).sort(SortOrder);
+      Logger.log('Sorting Complete');
+      }
+      catch (e)
+      {
+      Logger.log('Sorting failed, halting import');
+      return;
+      }
     }
 
 //*/////////////////////////////////////
 //*  END OF SCRIPT
 //*/////////////////////////////////////
-
 }

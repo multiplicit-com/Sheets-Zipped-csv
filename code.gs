@@ -82,34 +82,32 @@ function LoadfeedZIP(TargetFile, ImportType, DataSheetName, HasHeader=0, SortOrd
     } 
     catch (e)
     {Logger.log('Could not connect to sheet '+DataSheetName+'. Check the target sheet name');
+    Logger.log('Halting import.');
     return;
     }
-
 
 //*FUNCTIONS
 function DeleteOldData()
 {
-//* DELETE UNUSED CELLS, ROWS AND COLUMNS
-if (LastRow>0 || RetainOldData==0)
-  {
+//* DELETE ROWS AND COLUMNS FOR EFFICIENCY
+
     Logger.log('Clearing old data');
 
     // Delete all rows except row 1
-    if (ss.getMaxRows() > 1) {
-    ss.deleteRows(2, ss.getMaxRows() - 1);
-    }
-    
-    // Delete all columns except column 1
-    if (ss.getMaxColumns() > 1) {
-    ss.deleteColumns(2, ss.getMaxColumns() - 1);
-    }
+    if (ss.getMaxRows()) 
+      {
+      ss.deleteRows(2, ss.getMaxRows() - 1);
+      }
+ 
+    // Delete all columns if there is no header row
+    // Columns are preserved if there is a header row to avoid breaking pivots created from the data
+    if (ss.getMaxColumns() > 1 && HasHeader==0)
+      {
+      // Delete all columns except column 1
+      ss.deleteColumns(2, ss.getMaxColumns() - 1);
+      }
 
-    //* DELETE DATA
-    //* Empty anything left, which should be 1 single cell
-    ss.getRange(1,1,ss.getMaxRows(),ss.getMaxColumns()).clearContent();
-  }
 }
-
 
 //*/////////////////////////////////////
 //*  CHECK FOR IMPORTANT VARIABLES AND OPTIONAL FEATURES
@@ -129,6 +127,7 @@ if (typeof AddFormulas === 'undefined'||AddFormulas==null||AddFormulas.length ==
 
 if (typeof FormulaStatic === 'undefined') 
   {var AddFormulas=0;}
+
 
 //*/////////////////////////////////////
 //*  PREPARE FOR IMPORT
@@ -226,6 +225,7 @@ switch(ImportType)
     });
     break;    
   }
+
 } 
   catch (e)
   {
@@ -236,8 +236,10 @@ switch(ImportType)
 //* EXTRACT INFO VALUES ABOUT CSV FOR OTHER FUNCTIONS
   var LastRow = CellData.length; // last row of current data import
   var LastCol = CellData[0].length; // last row of current data import
+  var LastImportedCol = CellData[0].length; // The last row of the actual data import - do not ++iterate
   var NextCol = LastCol+1; // Identify next position to add new columns to
   var NextRow = LastRow+1; // Identify next position to add new rows to
+
 
 if((MinLengthRow>0&&LastRow<MinLengthRow)||(MinLengthCol>0&&LastCol<MinLengthCol))
   {
@@ -247,13 +249,15 @@ if((MinLengthRow>0&&LastRow<MinLengthRow)||(MinLengthCol>0&&LastCol<MinLengthCol
 
 //* EMPTY DATA POST IMPORT
 if (RetainOldData==1)
-  {DeleteOldData();}
+  {
+  DeleteOldData();
+  }
 
 //* PRINT THE EXTRACTED CONTENTS TO THE SHEET SPECIFIED IN THE SETTINGS
   try 
   {
   ss.getRange(1, 1, LastRow, LastCol).setValues(CellData);
-  Logger.log('Import successful: Rows: '+CellData.length+'. Skipped: '+DiscardCount+'.')
+  Logger.log('Import successful: Rows: '+CellData.length-DiscardCount+'. Skipped: '+DiscardCount+'.')
   } 
   catch (e)
   {

@@ -44,25 +44,24 @@ const DataSheetName = "Sheet1";
 //    ,{column: 3, ascending: true}
   ];
 
- //*Convert formulas to static values? 
+  //*Convert formulas to static values? 
   //* 0=No, 1=Yes
   var FormulaStatic = 1;
 
   //* What to do with old data if import fails or is empty.
-  //* 0 to remove, 1 to keep until there is something to replace it
+  //* 0 to remove it regardless, 1 to keep until it is more certain there is something to replace it
   RetainOldData=1;
 
   //* Minimum Length of data in rows - anything below this number is considered invalid.
   //* Set to 0 to disable
   //* 2 is a sensible value - even broken files can have 1 row or column
 
-  MinLengthRow=0;
+  MinLengthRow=1;
   MinLengthCol=2;
 
   //*Run the function with the settings above
   LoadfeedZIP(TargetFile, ImportType, DataSheetName, HasHeader, SortOrder, AddFormulas, FormulaStatic, RetainOldData, MinLengthRow, MinLengthCol);
 }
-
 
 
 
@@ -77,9 +76,7 @@ function LoadfeedZIP(TargetFile, ImportType, DataSheetName, HasHeader=0, SortOrd
 //*/////////////////////////////////////
 
 
-//*/////////////////////////////////////
 //*FUNCTIONS
-//*/////////////////////////////////////
 function DeleteOldData()
 {
 //* DELETE UNUSED CELLS, ROWS AND COLUMNS

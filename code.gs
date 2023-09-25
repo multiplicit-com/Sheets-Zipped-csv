@@ -44,12 +44,23 @@ const DataSheetName = "Sheet1";
 //    ,{column: 3, ascending: true}
   ];
 
-//Convert formulas to static values? 
-//* 0=No, 1=Yes
-const FormulaStatic =1;
+ //*Convert formulas to static values? 
+  //* 0=No, 1=Yes
+  var FormulaStatic = 1;
+
+  //* What to do with old data if import fails or is empty.
+  //* 0 to remove, 1 to keep until there is something to replace it
+  RetainOldData=1;
+
+  //* Minimum Length of data in rows - anything below this number is considered invalid.
+  //* Set to 0 to disable
+  //* 2 is a sensible value - even broken files can have 1 row or column
+
+  MinLengthRow=0;
+  MinLengthCol=2;
 
   //*Run the function with the settings above
-  LoadfeedZIP(TargetFile, ImportType, DataSheetName, HasHeader, SortOrder, AddFormulas, FormulaStatic);
+  LoadfeedZIP(TargetFile, ImportType, DataSheetName, HasHeader, SortOrder, AddFormulas, FormulaStatic, RetainOldData, MinLengthRow, MinLengthCol);
 }
 
 
@@ -57,7 +68,7 @@ const FormulaStatic =1;
 
 
 
-function LoadfeedZIP(TargetFile, ImportType, DataSheetName, HasHeader=0, SortOrder=null, AddFormulas=null, FormulaStatic=0) {
+function LoadfeedZIP(TargetFile, ImportType, DataSheetName, HasHeader=0, SortOrder=null, AddFormulas=null, FormulaStatic=0, RetainOldData=1, MinLengthRow=0, MinlengthCol=0) {
 //*/////////////////////////////////////
 //* Function to load zipped files into Google sheets
 //* by Steve Lownds
@@ -67,27 +78,34 @@ function LoadfeedZIP(TargetFile, ImportType, DataSheetName, HasHeader=0, SortOrd
 
 
 //*/////////////////////////////////////
-//*  CHECK FOR IMPORTANT VARIABLES AND OPTIONAL FEATURES
+//*FUNCTIONS
 //*/////////////////////////////////////
-
-if(TargetFile == undefined || ImportType == undefined || DataSheetName== undefined) 
+function DeleteOldData()
+{
+//* DELETE UNUSED CELLS, ROWS AND COLUMNS
+if (LastRow>0 || RetainOldData==0)
   {
-    Logger.log('Essential variables not set. Halting import.');
-    return;
+    Logger.log('Clearing old data');
+
+    // Delete all rows except row 1
+    if (ss.getMaxRows() > 1) {
+    ss.deleteRows(2, ss.getMaxRows() - 1);
+    }
+    
+    // Delete all columns except column 1
+    if (ss.getMaxColumns() > 1) {
+    ss.deleteColumns(2, ss.getMaxColumns() - 1);
+    }
+
+    //* DELETE DATA
+    //* Empty anything left, which should be 1 single cell
+    ss.getRange(1,1,ss.getMaxRows(),ss.getMaxColumns()).clearContent();
   }
- 
-if (typeof SortOrder === 'undefined'||SortOrder==null||SortOrder.length == 0) 
-  {var SortOrder=null;}
+}
 
-if (typeof AddFormulas === 'undefined'||AddFormulas==null||AddFormulas.length == 0) 
-  {var AddFormulas=null;}
-
-if (typeof FormulaStatic === 'undefined') 
-  {var AddFormulas=0;}
-
-//* CHECK IF TARGET SHEET IS VALID
 function sheetExists(sheetName) 
   {
+    //* CHECK IF TARGET SHEET IS VALID
     //* Get all sheets in the active spreadsheet
     var SheetList = SpreadsheetApp.getActiveSpreadsheet().getSheets();
   
@@ -115,6 +133,26 @@ function sheetExists(sheetName)
   }
 
 //*/////////////////////////////////////
+//*  CHECK FOR IMPORTANT VARIABLES AND OPTIONAL FEATURES
+//*/////////////////////////////////////
+
+if(TargetFile == undefined || ImportType == undefined || DataSheetName== undefined) 
+  {
+    Logger.log('Essential variables not set. Halting import.');
+    return;
+  }
+ 
+if (typeof SortOrder === 'undefined'||SortOrder==null||SortOrder.length == 0) 
+  {var SortOrder=null;}
+
+if (typeof AddFormulas === 'undefined'||AddFormulas==null||AddFormulas.length == 0) 
+  {var AddFormulas=null;}
+
+if (typeof FormulaStatic === 'undefined') 
+  {var AddFormulas=0;}
+
+
+//*/////////////////////////////////////
 //*  PREPARE FOR IMPORT
 //*  At least make a backup first, ok?
 //*/////////////////////////////////////
@@ -122,26 +160,16 @@ function sheetExists(sheetName)
 //* INITIALISE THE SPREADSHEET CONNECTION AND POINT IT AT THE CORRECT SHEET
     var ss = SpreadsheetApp.getActiveSpreadsheet().getSheetByName(DataSheetName);
 
-  // Delete all cells except cell 1
-  if (ss.getMaxRows() > 1) {
-  ss.deleteRows(2, ss.getMaxRows() - 1);
-  }
-  
-  // Delete all columns except column 1
-  if (ss.getMaxColumns() > 1) {
-  ss.deleteColumns(2, ss.getMaxColumns() - 1);
-  }
-
-  //* DELETE CURRENT DATA
-  //* Empty anything left, which should be 1 single cell
-  ss.getRange(1,1,ss.getMaxRows(),ss.getMaxColumns()).clearContent();
-
 //*/////////////////////////////////////
 //* FETCH FILE AND IMPORT DATA
 //*/////////////////////////////////////
 
 //* DEFINE WHERE THE DATA STARTS 
     const StartRow = 1 + HasHeader;
+
+//* EMPTY DATA PRIOR TO IMPORT
+  if (RetainOldData==0) 
+  {DeleteOldData();}
 
   Logger.log('Retreiving: '+TargetFile);
 
@@ -227,21 +255,33 @@ switch(ImportType)
     return;
   }
 
-//* PRINT THE EXTRACTED CONTENTS TO THE SHEET SPECIFIED AT THE TOP
-try {ss.getRange(1, 1, CellData.length, CellData[0].length).setValues(CellData);
-Logger.log('Import successful: Rows: '+CellData.length+'. Skipped: '+DiscardCount+'.')
-} 
-  catch (e)
-  {
-  Logger.log('Import failed. Halting import');
-  return;
-  }
-
 //* EXTRACT INFO VALUES ABOUT CSV FOR OTHER FUNCTIONS
   var LastRow = CellData.length; // last row of current data import
   var LastCol = CellData[0].length; // last row of current data import
   var NextCol = LastCol+1; // Identify next position to add new columns to
   var NextRow = LastRow+1; // Identify next position to add new rows to
+
+if((MinLengthRow>0&&LastRow<MinLengthRow)||(MinLengthCol>0&&LastCol<MinLengthCol))
+  {
+  Logger.log('Data not long enough. Halting Import');
+  return;
+  }
+
+//* EMPTY DATA POST IMPORT
+if (RetainOldData==1)
+  {DeleteOldData();}
+
+//* PRINT THE EXTRACTED CONTENTS TO THE SHEET SPECIFIED IN THE SETTINGS
+  try 
+  {
+  ss.getRange(1, 1, LastRow, LastCol).setValues(CellData);
+  Logger.log('Import successful: Rows: '+CellData.length+'. Skipped: '+DiscardCount+'.')
+  } 
+  catch (e)
+  {
+  Logger.log('Import failed. Halting import');
+  return;
+  }
 
 //*/////////////////////////////////////
 //*  OPTIONAL FUNCTIONS

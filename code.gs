@@ -65,8 +65,6 @@ const DataSheetName = "Sheet1";
 
 
 
-
-
 function LoadfeedZIP(TargetFile, ImportType, DataSheetName, HasHeader=0, SortOrder=null, AddFormulas=null, FormulaStatic=0, RetainOldData=1, MinLengthRow=0, MinlengthCol=0) {
 //*/////////////////////////////////////
 //* Function to load zipped files into Google sheets
@@ -251,9 +249,6 @@ if((MinLengthRow>0&&LastRow<MinLengthRow)||(MinLengthCol>0&&LastCol<MinLengthCol
 if (RetainOldData==1)
   {
   DeleteOldData();
-
-      // Delete all columns to the rightof imported data
-      ss.deleteColumns(LastImportedCol, ss.getMaxColumns() - LastImportedCol);
   }
 
 //* PRINT THE EXTRACTED CONTENTS TO THE SHEET SPECIFIED IN THE SETTINGS
@@ -307,6 +302,7 @@ if (typeof AddFormulas === 'undefined')
 
         //* INCREMENT NextCol BY +1 READY FOR THE NEXT NEW COLUMN
         NextCol++;
+        LastCol++;
     }
     );
   }
@@ -327,6 +323,12 @@ if (typeof AddFormulas === 'undefined')
       Logger.log('Adding formulas failed, halting import');
       return;
       }
+    }
+
+  // Delete all columns to the rightof imported data and extra formulas
+  if (ss.getMaxColumns()>LastCol)
+    {
+      try{ss.deleteColumns(LastCol, ss.getMaxColumns() - LastCol);} catch (e) {}
     }
 
 //* SORT THE DATA IF ENABLED AT TOP OF SCRIPT

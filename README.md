@@ -18,7 +18,7 @@ Version History
 V1.3.1
 
 * Script won't run if certain variables aren't provided
-* Implemented better way to empty and delete columns
+* Implemented better way to empty and delete columns to preserve pivot tables based on imported data
 
 V1.3
 * Separated the settings from the core functionality. Now you can invoke several imports in the same sheet without replicating the entire function 

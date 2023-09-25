@@ -71,7 +71,7 @@ function LoadfeedZIP(TargetFile, ImportType, DataSheetName, HasHeader=0, SortOrd
 //* Function to load zipped files into Google sheets
 //* by Steve Lownds
 //* www.multiplicit.co.uk/sheets
-//* Core function script
+//* Core function script V1.3.1
 //*/////////////////////////////////////
 
 //* INITIALISE THE SPREADSHEET CONNECTION AND POINT IT AT THE CORRECT SHEET

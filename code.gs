@@ -61,12 +61,12 @@ const DataSheetName = "Sheet1";
   MinLengthCol=2;
 
   //*Run the function with the settings above
-  LoadfeedZIP(TargetFile, ImportType, DataSheetName, HasHeader, SortOrder, AddFormulas, FormulaStatic, RetainOldData, MinLengthRow, MinLengthCol);
+  FeedLoader(TargetFile, ImportType, DataSheetName, HasHeader, SortOrder, AddFormulas, FormulaStatic, RetainOldData, MinLengthRow, MinLengthCol);
 }
 
 
 
-function LoadfeedZIP(TargetFile, ImportType, DataSheetName, HasHeader=0, SortOrder=null, AddFormulas=null, FormulaStatic=0, RetainOldData=1, MinLengthRow=0, MinlengthCol=0) {
+function FeedLoader(TargetFile, ImportType, DataSheetName, HasHeader=0, SortOrder=null, AddFormulas=null, FormulaStatic=0, RetainOldData=1, MinLengthRow=0, MinlengthCol=0) {
 //*/////////////////////////////////////
 //* Function to load zipped files into Google sheets
 //* by Steve Lownds
@@ -351,4 +351,143 @@ if (typeof AddFormulas === 'undefined')
 //*/////////////////////////////////////
 //*  END OF SCRIPT
 //*/////////////////////////////////////
+}
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+function parseSpecifications() {
+  var sourceSheetName = "Phones";  // Name of the source sheet
+  var targetSheetName = "ParsedSpecifications";  // Name of the target sheet
+  var sourceColumn = "F";  // Column containing the specifications
+  var targetColumns = [
+    {column: "D", header: "ParsedKey"},
+    {column: "E", header: "ParsedValue"},
+    {column: "B", header: "device_full_name"},
+    {column: "A", header: "ProductFamily"},
+    {column: "C", header: "Storage"},
+    {column: "D", header: "Colour"}
+  ];  // Columns and header names for different column values
+
+  var staticColumnValue = 1;  // Default value for the static column
+  var calcHeaderName = "Active";
+
+  var ss = SpreadsheetApp.getActiveSpreadsheet();
+  var sourceSheet = ss.getSheetByName(sourceSheetName);
+  var targetSheet = ss.getSheetByName(targetSheetName);
+
+  var data = sourceSheet.getRange(sourceColumn + "1:" + sourceColumn + sourceSheet.getLastRow()).getValues();
+  var parsedData = [];
+
+  // Add headers to the first row of the target sheet if it's empty
+  var targetHeaderRange = targetSheet.getRange(1, 1, 1, targetColumns.length + 1);
+  var targetHeaderValues = targetHeaderRange.getValues();
+  var isTargetSheetEmpty = targetHeaderValues[0].every(cell => !cell);
+  if (isTargetSheetEmpty) {
+    var headerRow = [];
+    for (var k = 0; k < targetColumns.length; k++) {
+      headerRow.push(targetColumns[k].header);
+    }
+    headerRow.push(calcHeaderName);
+    targetHeaderRange.setValues([headerRow]);
+  }
+
+  var newRowCount = 0; // Counter for new rows added
+
+  // Retrieve existing keys if the target sheet has at least one row
+  var existingKeys = [];
+  if (!isTargetSheetEmpty) {
+    existingKeys = targetSheet.getRange(2, 1, targetSheet.getLastRow() - 1, 3).getValues();
+  }
+
+  // Retrieve column values once before the loop
+  var columnValues = [];
+  for (var k = 3; k < targetColumns.length; k++) {
+    var sourceColumn = targetColumns[k].column;
+    var columnValueRange = sourceSheet.getRange(sourceColumn + "1:" + sourceColumn + sourceSheet.getLastRow());
+    var columnValue = columnValueRange.getValues();
+    columnValues.push(columnValue);
+  }
+
+  for (var i = 0; i < data.length; i++) {
+    var specString = data[i][0];
+    var specs = specString.split("*");
+
+    for (var j = 1; j < specs.length; j++) {
+      var parsedSpecs = specs[j].trim();
+      var parsedValues = parsedSpecs.split(":"); // Split the parsed specifications value based on ":"
+
+      var rowData = [];
+
+      // Add parsed key, parsed value, and header1 column values
+      rowData.push(parsedValues[0].trim());
+      if (parsedValues.length > 1) {
+        rowData.push(parsedValues[1].trim());
+      } else {
+        rowData.push("");
+      }
+      rowData.push(sourceSheet.getRange(targetColumns[2].column + (i + 1)).getValue());
+
+      // Add the remaining column values from the retrieved array
+      for (var k = 0; k < columnValues.length; k++) {
+        var columnValue = columnValues[k][i][0];
+        rowData.push(columnValue);
+      }
+      rowData.push(staticColumnValue);  // Add the value for the static column
+
+      // Check if the parsed key, parsed value, and PhoneModel already exist in the target sheet
+      var keyExists = false;
+      for (var k = 0; k < existingKeys.length; k++) {
+        var existingKey = existingKeys[k];
+        if (
+          existingKey[0] === rowData[0] &&
+          existingKey[2] === rowData[2]
+        ) {
+          keyExists = true;
+          break;
+        }
+      }
+
+      if (!keyExists) {
+        parsedData.push(rowData);
+        newRowCount++; // Increment the counter for new rows added
+      }
+    }
+  }
+
+  // Append the parsed data to the target sheet
+  if (parsedData.length > 0) {
+    targetSheet.getRange(targetSheet.getLastRow() + 1, 1, parsedData.length, parsedData[0].length).setValues(parsedData);
+  }
+
+  Logger.log(newRowCount + " new rows added."); // Log the number of rows added
+
+    // Update info sheet with current timestamp
+    var sheet = SpreadsheetApp.getActiveSpreadsheet().getSheetByName("Info");
+    sheet.getRange("B2").setValue(Utilities.formatDate(new Date(), "GMT", "dd-MM-yyyy HH:mm"));
+
 }

@@ -8,7 +8,7 @@ The aim is to allow anyone with basic Excel or Google Sheets skills to get extra
 
 By default it comes with modes for zipped or unzipped csv files, and tab delimited text files. It it is designed to be easily extensible to deal with other formats if required. 
 
-This script was originally written to be compatible with affiliate product csv feeds from Awin (affiliate window), but it will work with any standard zipped csv file. 
+This script was originally written by an experienced internet marketer to be compatible with affiliate product csv feeds from Awin (affiliate window), but it will work with any standard zipped csv file from any source, for any purpose. 
 
 This file contains two functions. One performs the key functionality and the other provides the settings and triggers it. That allows you to perform using several imports to different tabs in the same Google sheet using the same base code.
 

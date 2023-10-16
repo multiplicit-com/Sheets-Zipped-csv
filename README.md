@@ -14,6 +14,8 @@ This file contains two functions. One performs the key functionality, while the 
 
 You can find full instructions here: https://www.multiplicit.co.uk/sheets/ .
 
+You may also be interested in the sister project, which loads Sheets from Google Sheets into a mysql database: https://github.com/multiplicit-com/Sheets-to-mysql 
+
 <hr>
 
 <strong>Version History</strong>

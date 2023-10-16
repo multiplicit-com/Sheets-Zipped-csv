@@ -38,3 +38,10 @@ V1.1
 
 V1
 * Initial version
+
+* <hr>
+
+**What is an AppScript?**
+
+AppScript is a scripting language for Google Workspace apps, including Sheets, Docs, and Slides. It allows users to automate tasks, integrate with external data, and customize app behavior. 
+It uses the JavaScript language and it runs on Google's own servers so it is easy for it to communicate with Google services like sheets and you won't need an expensive server to use it. Using Google Sheets and soem basic Appscripts you can do the same job as expensive and complicated data management tools.

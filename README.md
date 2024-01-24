@@ -4,25 +4,24 @@ This is a simple Apps Script to load, sort and manipulate zipped csv files in Go
 This script will enable you to take back control of your data by using Google Sheets to consume a file, process it into a new feed that is perfect for your requirements and make it available for use elsewhere.
 Sheets takes care of automatic updates and error notifications so the data is always fresh. 
 
+By default it comes with modes for csv files or tab delimited text files, either zipped or unzipped. It it is designed to be easily extensible to deal with other formats if required.
+
 The aim is to allow anyone with basic Excel or Google Sheets skills to get extra value from product data without relying on time consuming or expensive developers. If you can make basic pivot tables that is more than enough to create your own custom data source, and if you can write simple Excel/Sheets formulas the customisation options increase significantly..
-
-By default it comes with modes for zipped or unzipped csv files, and tab delimited text files. It it is designed to be easily extensible to deal with other formats if required. 
-
-This script was originally written by an experienced internet marketer to be compatible with affiliate product csv feeds from Awin (Affiliate Window), but it will work with any standard zipped csv file from any source, for any purpose. 
 
 This file contains two functions. One performs the key functionality, while the other provides the settings and triggers the import. That allows you to perform using several imports from the same Google sheet using the same base code.
 
+This script was originally written by an experienced internet marketer to be compatible with affiliate product csv feeds from Awin (Affiliate Window), but it will work with any standard zipped csv file from any source, for any purpose. 
+
 You can find full instructions here: https://www.multiplicit.co.uk/sheets/ .
 
-You may also be interested in the sister project, which loads Sheets from Google Sheets into a mysql database: https://github.com/multiplicit-com/Sheets-to-mysql .
+You may also be interested in the sister project, which loads tabs from Google Sheets into a mysql database: https://github.com/multiplicit-com/Sheets-to-mysql . By combining the two scripts you can retrieve a file, sort, process and pivot the contents, then pull the transformed output into mysql for further use.
 
 <hr>
 
 <strong>Version History</strong>
 
 V1.3.1
-
-* Script won't run if certain variables aren't provided
+* Script now won't run if certain essential variables aren't provided
 * Implemented better way to empty and delete columns to preserve pivot tables based on imported data
 
 V1.3

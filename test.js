@@ -1,7 +1,5 @@
-// thankyou-script.js
+// test.js on GitHub
 const uniqueID = 'HARDCODED_UNIQUE_ID';
 
-if (window.location.pathname.includes('/thank_you')) {
-  // Display a popup when the Thank You page is loaded
-  alert('Thank you for your order! Your unique ID is: ' + uniqueID);
-}
+// Display a basic alert to test if the script is working on any page
+alert('Script is working on all pages! Your unique ID is: ' + uniqueID);

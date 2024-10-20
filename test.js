@@ -1,4 +1,5 @@
-alert ("TESTING");
+console.log("Loading external file ", event?.data);
+
 (function(i){
   if(i&&i.a.length>0){
     var c=document;

@@ -1,3 +1,4 @@
+alert ("TESTING");
 (function(i){
   if(i&&i.a.length>0){
     var c=document;

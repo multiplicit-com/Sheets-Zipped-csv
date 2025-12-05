@@ -11,7 +11,7 @@ function RunImporter() {
 const TargetFile = 'https://site.com/datafeed.zip';
 
 //* CHOOSE IMPORT TYPE 
-//* 0=csv, 1=zipped csv, 2=tab delimted txt
+//* 0=csv (not zipped), 1=zipped csv, 2=tab delimted txt
 const ImportType =2;
 
 //* FILE HAS HEADER ROW?
@@ -166,7 +166,7 @@ switch(ImportType)
     break;
     
     case 1:
-    //* FETCH ZIP FILE AND UNZIP
+    //* FETCH ZIPPED CSV FILE AND UNZIP
     try {var blob = UrlFetchApp.fetch(TargetFile).getBlob(); Logger.log('Fetch successful');}
     catch (e){Logger.log('Fetch Failed');}
     var file = Utilities.unzip(blob);

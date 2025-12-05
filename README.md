@@ -18,6 +18,43 @@ You may also be interested in the sister project to this script, a php file that
 
 <hr>
 
+## Quick start (Google Sheets setup)
+
+1. **Create a new Google Sheet**  
+   Open Google Sheets and create a blank spreadsheet (or use one you already have).
+
+2. **Open the Apps Script editor**  
+   In the Sheet, go to:  
+   **Extensions → Apps Script**
+
+3. **Add the script code**  
+   - Delete any code in the editor.  
+   - Copy everything from this repo’s `code.gs` file.  
+   - Paste it into the Apps Script editor and click **Save**.
+
+4. **Update the basic settings**  
+   Near the top of the script you’ll see a small “settings” section.  
+   At minimum you should update:
+
+   ```js
+   //* SPECIFY FILE URL TO DOWNLOAD
+   const TargetFile = 'https://example.com/yourfile.zip';
+
+   //* CHOOSE IMPORT TYPE
+   //* 0 = csv, 1 = zipped csv, 2 = tab-delimited txt
+   const ImportType = 1;
+
+   //* DOES FILE HAVE A HEADER ROW?
+   //* 0 = No, 1 = Yes
+   const HasHeader = 1;
+
+   //* NAME OF THE SHEET/TAB TO IMPORT INTO
+   const DataSheetName = 'Sheet1';
+
+
+
+<hr>
+
 <strong>Version History</strong>
 
 V1.3.1

@@ -8,13 +8,13 @@ By default it comes with modes for csv files or tab delimited text files, either
 
 The aim is to allow anyone with basic Excel or Google Sheets skills to get extra value from product data without relying on time consuming or expensive developers. If you can make basic pivot tables that is more than enough to create your own custom data source, and if you can write simple Excel/Sheets formulas the customisation options increase significantly..
 
-This file contains two functions. One performs the key functionality, while the other provides the settings and triggers the import. That allows you to perform using several imports from the same Google sheet using the same base code.
+This file contains two functions. One provides all the key functionality, while the other is used to provides the settings and trigger the import. That allows you to perform using several imports with settings from the same Google sheet using the same base code.
 
 This script was originally written by an experienced internet marketer to be compatible with affiliate product csv feeds from Awin (Affiliate Window), but it will work with any standard zipped csv file from any source, for any purpose. 
 
 You can find full instructions here: https://www.multiplicit.co.uk/sheets/ .
 
-You may also be interested in the sister project, which loads tabs from Google Sheets into a mysql database: https://github.com/multiplicit-com/Sheets-to-mysql . By combining the two scripts you can retrieve a file, sort, process and pivot the contents, then pull the transformed output into mysql for further use.
+You may also be interested in the sister project to this script, a php file that loads a tabs from Google Sheets into a mysql database: https://github.com/multiplicit-com/Sheets-to-mysql . By combining the two scripts you can retrieve a file, sort, process and pivot the contents, then pull the transformed output into mysql for further use.
 
 <hr>
 

@@ -52,6 +52,38 @@ You may also be interested in the sister project to this script, a php file that
    const DataSheetName = 'Sheet1';
 
 
+## Settings Explained
+
+- **TargetFile** → your CSV/ZIP URL
+- **ImportType** → usually `1` for zipped Awin-style feeds
+- **HasHeader** → set to `1` if the first row contains column titles
+- **DataSheetName** → the tab you want to import into
+
+## Run the import for the first time
+
+- In Apps Script, choose the main function (e.g. `LoadFeedZIP`) from the dropdown
+- Click **Run**
+- Approve permissions when Google prompts you
+- The script will download and load the data into your selected sheet
+
+## (Optional) Set up automatic updates
+
+- In Apps Script, open **Triggers** (clock icon)
+- Click **Add trigger**
+- Choose your import function and how often it should run
+- Optional: enable email notifications for failures
+
+## Notes & limitations
+
+- Assumes **one CSV per ZIP**. ZIPs with multiple CSVs require modifications.
+- Subject to Google Sheets’ **10M cell limit** — large feeds may need trimming.
+- Script intentionally kept simple to make it easy to customise or extend.
+
+## Full walkthrough
+
+https://www.multiplicit.co.uk/sheets/
+
+
 
 <hr>
 
